@@ -23,17 +23,26 @@
             --radius-sm: 12px;
         }
         * { margin:0; padding:0; box-sizing:border-box; }
-        html { scroll-behavior:smooth; -webkit-overflow-scrolling:touch; -webkit-tap-highlight-color:transparent; height:100%; }
+        html {
+            scroll-behavior:smooth;
+            -webkit-overflow-scrolling:touch;
+            -webkit-tap-highlight-color:transparent;
+            height:100%;
+            font-size: 16px;
+        }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
             background: #fff5f6;
             color: var(--text);
-            line-height: 1.7;
+            line-height: 1.5;
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
             min-height: 100vh;
             background-image: radial-gradient(ellipse at 20% 20%, rgba(255,179,186,0.25) 0%, transparent 50%),
                               radial-gradient(ellipse at 80% 60%, rgba(255,224,229,0.3) 0%, transparent 50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         /* 封面 */
@@ -64,7 +73,7 @@
         }
         .cover-hint {
             margin-top: 24px; font-size: 1.1rem; color: #d46a7a; letter-spacing: 2px;
-            font-weight: 500; animation: hintPulse 2s infinite;
+            font-weight: 500; animation: hintPulse 2s infinite; text-align: center;
         }
         @keyframes hintPulse {
             0%,100%{ opacity:0.7; transform:scale(1); }
@@ -96,18 +105,38 @@
 
         /* 主内容 */
         .main-container {
-            max-width:480px; margin:0 auto; padding:0 16px 40px; display:none; position:relative; z-index:1;
+            width: 100%;
+            max-width: 480px;
+            padding: 0 16px 40px;
+            display: none;
+            position: relative;
+            z-index: 1;
         }
-        .main-container.visible { display:block; }
+        .main-container.visible { display: block; }
 
-        .section {
-            margin:24px 0; padding:28px 20px; background:var(--white); border-radius:var(--radius);
-            box-shadow:var(--shadow); position:relative; overflow:hidden; transition:0.3s;
+        .step-section {
+            display: none;
+            margin: 24px 0;
+            padding: 28px 20px;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+            animation: fadeInUp 0.5s ease;
         }
-        .section-header { display:flex; align-items:center; gap:10px; margin-bottom:16px; }
+        .step-section.active { display: block; }
+
+        @keyframes fadeInUp {
+            from { opacity:0; transform:translateY(20px); }
+            to { opacity:1; transform:translateY(0); }
+        }
+
+        .section-header { display:flex; align-items:center; gap:10px; margin-bottom:16px; justify-content: center; }
         .section-icon { font-size:2rem; }
         .section-title { font-size:1.3rem; font-weight:700; color:var(--pink-dark); }
-        .section-divider { width:50px; height:3px; background:linear-gradient(90deg, #ffb3ba, #ffe0e5); border-radius:3px; margin-bottom:16px; }
+        .section-divider { width:50px; height:3px; background:linear-gradient(90deg, #ffb3ba, #ffe0e5); border-radius:3px; margin:0 auto 16px; }
 
         /* 信封样式 */
         .envelope-wrapper {
@@ -116,27 +145,22 @@
         .envelope-emoji { font-size:70px; display:block; }
         .envelope-text { color:#d46a7a; margin-top:10px; font-weight:500; }
         
-        /* 打开后的信纸 */
         .letter-paper {
             display:none; background: #fff9fa; border: 2px dashed #ffb3ba; border-radius: 16px; padding: 24px 20px;
             text-align: center; position: relative; margin-top: 10px;
         }
         .letter-paper.open { display:block; animation: fadeInUp 0.6s ease; }
-        @keyframes fadeInUp {
-            from { opacity:0; transform:translateY(20px); }
-            to { opacity:1; transform:translateY(0); }
-        }
         .letter-content {
-            font-size: 1rem; color: #5a3e4b; line-height: 1.8; margin-bottom: 20px;
+            font-size: 1rem; color: #5a3e4b; line-height: 1.8; margin-bottom: 20px; text-align: center;
         }
         .letter-next-btn {
             display: inline-block; padding: 12px 28px; background: #ffb3ba; color: white; border-radius: 25px;
             font-weight: 600; letter-spacing: 1px; cursor: pointer; transition: 0.3s; border: none;
-            box-shadow: 0 4px 12px rgba(255,107,129,0.3);
+            box-shadow: 0 4px 12px rgba(255,107,129,0.3); margin-top: 10px;
         }
         .letter-next-btn:active { transform:scale(0.95); background:#f0959e; }
 
-        /* 照片墙 */
+        /* 照片墙（横竖屏自适应） */
         .photo-scroll-wrapper {
             overflow-x:auto; -webkit-overflow-scrolling:touch; scroll-snap-type:x mandatory;
             padding:8px 0 16px; margin:0 -8px; display:flex; gap:14px; scrollbar-width:none;
@@ -146,7 +170,18 @@
             flex-shrink:0; width:220px; scroll-snap-align:center; border-radius:16px; overflow:hidden;
             background:#fff; box-shadow:0 4px 16px rgba(0,0,0,0.06); position:relative;
         }
-        .photo-card img { width:100%; height:240px; object-fit:cover; display:block; }
+        /* 关键：图片容器高度固定，图片使用 cover 适应横竖屏 */
+        .photo-card .img-container {
+            width: 100%;
+            height: 240px;
+            overflow: hidden;
+        }
+        .photo-card .img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
         .photo-card .photo-label { padding:10px 14px; font-size:0.8rem; color:#8b6b7a; text-align:center; }
         .like-btn {
             position:absolute; bottom:45px; right:8px; background:rgba(255,255,255,0.9);
@@ -158,10 +193,11 @@
         .like-count { position:absolute; bottom:48px; right:48px; font-size:0.7rem; color:#d44a5c; background:rgba(255,255,255,0.9); border-radius:10px; padding:2px 6px; }
 
         /* 心愿清单 */
-        .todo-list { list-style:none; display:flex; flex-direction:column; gap:10px; }
+        .todo-list { list-style:none; display:flex; flex-direction:column; gap:10px; padding: 0; }
         .todo-item {
             display:flex; align-items:center; gap:12px; padding:14px 16px; background:#fff9fa;
             border-radius:var(--radius-sm); cursor:pointer; transition:0.3s; border:2px solid transparent;
+            text-align: left;
         }
         .todo-item:active { background:#ffe8ec; border-color:#ffb3ba; }
         .todo-item.completed { background:#f0fdf0; border-color:#b8e6b8; text-decoration:line-through; color:#7a9a7a; }
@@ -177,36 +213,42 @@
         .scratch-bg-img { width:100%; height:100%; object-fit:contain; display:block; background:#fff; }
         .scratch-canvas { position:absolute; top:0; left:0; width:100%; height:100%; touch-action:none; cursor: pointer; }
         .scratch-hint { text-align:center; font-size:0.8rem; color:#b08890; margin-top:8px; }
+        .btn-download {
+            display: inline-block; margin-top: 14px; padding: 14px 28px; background: #ffb3ba; color: white;
+            border: none; border-radius: 30px; font-size: 1rem; font-weight: 600; letter-spacing: 1px;
+            cursor: pointer; box-shadow: 0 4px 12px rgba(255,107,129,0.3); transition: 0.3s; text-decoration: none;
+        }
+        .btn-download:active { transform:scale(0.95); background:#f0959e; }
 
         /* 弹窗 */
         .popup {
             position:fixed; top:50%; left:50%; transform:translate(-50%,-50%) scale(0.8);
             background:white; padding:30px 24px; border-radius:24px; text-align:center;
             box-shadow:0 20px 50px rgba(0,0,0,0.2); z-index:10001; opacity:0; pointer-events:none;
-            transition:0.4s; max-width:300px;
+            transition:0.4s; max-width:300px; width: 90%;
         }
         .popup.show { opacity:1; pointer-events:auto; transform:translate(-50%,-50%) scale(1); }
         .popup-bg { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:10000; opacity:0; pointer-events:none; transition:0.3s; }
         .popup-bg.show { opacity:1; pointer-events:auto; }
 
-        .fade-in-up { opacity:0; transform:translateY(30px); transition:0.7s; }
-        .fade-in-up.visible { opacity:1; transform:translateY(0); }
-
         .toast {
             position:fixed; bottom:80px; left:50%; transform:translateX(-50%) translateY(20px);
             background:rgba(200,70,90,0.9); color:#fff; padding:12px 24px; border-radius:30px;
             font-size:0.9rem; z-index:10002; opacity:0; pointer-events:none; transition:0.35s;
+            white-space: nowrap;
         }
         .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 
+        .text-center { text-align: center; }
+
         @media (max-width:380px) {
             .photo-card { width:180px; }
-            .photo-card img { height:200px; }
+            .photo-card .img-container { height: 200px; }
         }
     </style>
 </head>
 <body>
-    <!-- 封面：草莓蛋糕 -->
+    <!-- 封面 -->
     <div id="cover">
         <span class="cover-decor" style="top:10%;left:8%;">🍓</span>
         <span class="cover-decor" style="top:18%;right:10%;">🌸</span>
@@ -227,19 +269,18 @@
     <div class="popup-bg" id="popup-bg"></div>
     <div class="popup" id="popup">
         <p id="popup-text" style="font-size:1.2rem; color:#d44a6e; font-weight:600;"></p>
-        <button id="popup-close" style="margin-top:16px; padding:10px 24px; border:none; background:#ffb3ba; color:white; border-radius:20px; font-size:0.9rem;">好的 ❤️</button>
+        <button id="popup-close" class="btn-download" style="margin-top:16px; padding:10px 24px;">好的 ❤️</button>
     </div>
     <div class="toast" id="toast"></div>
 
     <!-- 主内容 -->
     <div class="main-container" id="main-content">
-        <!-- 信件祝福区 -->
-        <section class="section fade-in-up">
+        <!-- 第一步：信封 -->
+        <section class="step-section active" id="step-envelope">
             <div class="envelope-wrapper" id="envelope">
                 <span class="envelope-emoji">💌</span>
                 <p class="envelope-text">你有一封信，点击打开 💗</p>
             </div>
-            <!-- 打开后的信纸 -->
             <div class="letter-paper" id="letterPaper">
                 <div class="letter-content">
                     <!-- 🔧 替换：修改信中的祝福语 -->
@@ -253,43 +294,83 @@
             </div>
         </section>
 
-        <!-- 回忆照片区 -->
-        <section class="section fade-in-up" id="photo-section">
+        <!-- 第二步：8张照片回忆 -->
+        <section class="step-section" id="step-photos">
             <div class="section-header"><span class="section-icon">📸</span><h2 class="section-title">我们的回忆</h2></div>
             <div class="section-divider"></div>
-            <p style="font-size:0.8rem; color:#b08890; margin-bottom:8px;">← 左右滑动，点一下小心心告诉我你的喜欢 💗</p>
+            <p class="text-center" style="font-size:0.8rem; color:#b08890; margin-bottom:8px;">← 左右滑动，点一下小心心告诉我你的喜欢 💗</p>
             <div class="photo-scroll-wrapper" id="photo-scroll">
-                <!-- 🔧 替换照片：修改 src 和 photo-label -->
+                <!-- 🔧 替换照片：修改每个 img 的 src 为你的照片路径，修改 photo-label 文字 -->
                 <div class="photo-card" data-id="0">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350'%3E%3Crect fill='%23ffe0e5' width='300' height='350'/%3E%3Ctext x='150' y='175' text-anchor='middle' fill='%23d4909a' font-size='20'%3E📷 照片1%3C/text%3E%3C/svg%3E" alt="照片1">
+                    <div class="img-container">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350'%3E%3Crect fill='%23ffe0e5' width='300' height='350'/%3E%3Ctext x='150' y='175' text-anchor='middle' fill='%23d4909a' font-size='20'%3E📷 1%3C/text%3E%3C/svg%3E" alt="照片1">
+                    </div>
                     <div class="photo-label">第一次见面 💕</div>
                     <button class="like-btn">🤍</button>
                     <span class="like-count">0</span>
                 </div>
                 <div class="photo-card" data-id="1">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350'%3E%3Crect fill='%23fff0e0' width='300' height='350'/%3E%3Ctext x='150' y='175' text-anchor='middle' fill='%23d4a090' font-size='20'%3E📷 照片2%3C/text%3E%3C/svg%3E" alt="照片2">
+                    <div class="img-container">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='250'%3E%3Crect fill='%23fff0e0' width='400' height='250'/%3E%3Ctext x='200' y='125' text-anchor='middle' fill='%23d4a090' font-size='20'%3E📷 2(横)%3C/text%3E%3C/svg%3E" alt="照片2">
+                    </div>
                     <div class="photo-label">一起看海 🌊</div>
                     <button class="like-btn">🤍</button>
                     <span class="like-count">0</span>
                 </div>
                 <div class="photo-card" data-id="2">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350'%3E%3Crect fill='%23f0f7fc' width='300' height='350'/%3E%3Ctext x='150' y='175' text-anchor='middle' fill='%2390a0d4' font-size='20'%3E📷 照片3%3C/text%3E%3C/svg%3E" alt="照片3">
+                    <div class="img-container">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='400'%3E%3Crect fill='%23f0f7fc' width='300' height='400'/%3E%3Ctext x='150' y='200' text-anchor='middle' fill='%2390a0d4' font-size='20'%3E📷 3(竖)%3C/text%3E%3C/svg%3E" alt="照片3">
+                    </div>
                     <div class="photo-label">最开心的那天 🎉</div>
                     <button class="like-btn">🤍</button>
                     <span class="like-count">0</span>
                 </div>
                 <div class="photo-card" data-id="3">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350'%3E%3Crect fill='%23f5e8ff' width='300' height='350'/%3E%3Ctext x='150' y='175' text-anchor='middle' fill='%23b090d4' font-size='20'%3E📷 照片4%3C/text%3E%3C/svg%3E" alt="照片4">
+                    <div class="img-container">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='350' height='350'%3E%3Crect fill='%23f5e8ff' width='350' height='350'/%3E%3Ctext x='175' y='175' text-anchor='middle' fill='%23b090d4' font-size='20'%3E📷 4%3C/text%3E%3C/svg%3E" alt="照片4">
+                    </div>
                     <div class="photo-label">一起做饭 🍳</div>
                     <button class="like-btn">🤍</button>
                     <span class="like-count">0</span>
                 </div>
+                <div class="photo-card" data-id="4">
+                    <div class="img-container">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='250'%3E%3Crect fill='%23e8f8e8' width='400' height='250'/%3E%3Ctext x='200' y='125' text-anchor='middle' fill='%2380a080' font-size='20'%3E📷 5(横)%3C/text%3E%3C/svg%3E" alt="照片5">
+                    </div>
+                    <div class="photo-label">春日野餐 🌸</div>
+                    <button class="like-btn">🤍</button>
+                    <span class="like-count">0</span>
+                </div>
+                <div class="photo-card" data-id="5">
+                    <div class="img-container">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='400'%3E%3Crect fill='%23fff5e6' width='300' height='400'/%3E%3Ctext x='150' y='200' text-anchor='middle' fill='%23c0a080' font-size='20'%3E📷 6(竖)%3C/text%3E%3C/svg%3E" alt="照片6">
+                    </div>
+                    <div class="photo-label">圣诞合影 🎄</div>
+                    <button class="like-btn">🤍</button>
+                    <span class="like-count">0</span>
+                </div>
+                <div class="photo-card" data-id="6">
+                    <div class="img-container">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='350' height='300'%3E%3Crect fill='%23f0e0ff' width='350' height='300'/%3E%3Ctext x='175' y='150' text-anchor='middle' fill='%23a080c0' font-size='20'%3E📷 7%3C/text%3E%3C/svg%3E" alt="照片7">
+                    </div>
+                    <div class="photo-label">音乐节 🎵</div>
+                    <button class="like-btn">🤍</button>
+                    <span class="like-count">0</span>
+                </div>
+                <div class="photo-card" data-id="7">
+                    <div class="img-container">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23e0f0ff' width='400' height='300'/%3E%3Ctext x='200' y='150' text-anchor='middle' fill='%238090b0' font-size='20'%3E📷 8(横)%3C/text%3E%3C/svg%3E" alt="照片8">
+                    </div>
+                    <div class="photo-label">日常小确幸 ☀️</div>
+                    <button class="like-btn">🤍</button>
+                    <span class="like-count">0</span>
+                </div>
             </div>
-            <p style="font-size:0.7rem; color:#c0a0a8; text-align:center; margin-top:6px;">猜猜这些照片里我最喜欢哪张？❤️</p>
+            <p class="text-center" style="font-size:0.7rem; color:#c0a0a8; margin-top:6px;">猜猜这些照片里我最喜欢哪张？❤️</p>
         </section>
 
-        <!-- 一起做的事 -->
-        <section class="section fade-in-up" id="todo-section">
+        <!-- 第三步：一起做的事 -->
+        <section class="step-section" id="step-todo">
             <div class="section-header"><span class="section-icon">📝</span><h2 class="section-title">想一起做的事</h2></div>
             <div class="section-divider"></div>
             <ul class="todo-list" id="todo-list">
@@ -301,30 +382,30 @@
                 <li class="todo-item"><span class="todo-check">✓</span><span class="todo-text">一起做一顿烛光晚餐 🕯️</span></li>
                 <li class="todo-item"><span class="todo-check">✓</span><span class="todo-text">一起变老，看遍四季 👵👴</span></li>
             </ul>
-            <p style="font-size:0.7rem; color:#c0a0a8; text-align:center; margin-top:8px;">
+            <p class="text-center" style="font-size:0.7rem; color:#c0a0a8; margin-top:8px;">
                 已完成：<span id="completed-count" style="color:#5cb85c; font-weight:700;">0</span> / <span id="total-count">6</span>
             </p>
         </section>
 
-        <!-- 刮刮乐涂色任务 (灰色涂层) -->
-        <section class="section fade-in-up" id="scratch-section">
-            <div class="section-header" style="justify-content:center;"><span class="section-icon">🎨</span><h2 class="section-title">小惊喜刮开看看</h2></div>
-            <div class="section-divider" style="margin:0 auto 16px;"></div>
-            <p style="text-align:center; font-size:0.9rem; color:#5a3e4b;">用手指轻轻刮开下方涂层 ✨</p>
+        <!-- 第四步：刮刮乐 -->
+        <section class="step-section" id="step-scratch">
+            <div class="section-header"><span class="section-icon">🎨</span><h2 class="section-title">小惊喜刮开看看</h2></div>
+            <div class="section-divider"></div>
+            <p class="text-center" style="font-size:0.9rem; color:#5a3e4b;">用手指轻轻刮开下方涂层 ✨</p>
             <div class="scratch-container" id="scratch-container">
-                <!-- 底图层：生日快乐线稿 (保持不变) -->
                 <img id="scratch-bg-img" class="scratch-bg-img"
                      src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'%3E%3Crect fill='white' width='400' height='500'/%3E%3Crect x='30' y='30' width='340' height='440' rx='8' fill='none' stroke='%23ffb3ba' stroke-width='3'/%3E%3Cpath d='M200,150 C200,150 250,100 290,130 C330,160 330,210 290,240 C265,260 200,310 200,310 C200,310 135,260 110,240 C70,210 70,160 110,130 C150,100 200,150 200,150 Z' fill='none' stroke='%23e8576b' stroke-width='2.5'/%3E%3Ccircle cx='175' cy='195' r='15' fill='none' stroke='%23e8576b' stroke-width='1.5'/%3E%3Ccircle cx='225' cy='195' r='15' fill='none' stroke='%23e8576b' stroke-width='1.5'/%3E%3Ctext x='200' y='420' text-anchor='middle' fill='%23e8576b' font-size='24' font-weight='bold'%3E生日快乐%3C/text%3E%3Ctext x='200' y='450' text-anchor='middle' fill='%23d4909a' font-size='14'%3E为你画的画 🍓%3C/text%3E%3C/svg%3E"
                      alt="涂色线稿">
                 <canvas id="scratch-canvas" class="scratch-canvas"></canvas>
             </div>
             <p class="scratch-hint" id="scratch-hint">💗 刮开涂层，有我想对你说的话</p>
-            <div id="scratch-reveal-text" style="display:none; text-align:center; margin-top:12px; color:#d44a6e; font-weight:600;">
-                这是我画的，送给你的 💗<br>长按上方图片保存到手机，涂上你喜欢的颜色，<br>凭作品找我兑换礼物哦！🎁
+            <div id="scratch-reveal" style="display:none; text-align:center; margin-top:12px;">
+                <p style="color:#d44a6e; font-weight:600; margin-bottom:12px;">这是我画的，送给你的 💗<br>点击下方按钮下载线稿，涂上你喜欢的颜色，<br>凭作品找我兑换礼物哦！🎁</p>
+                <button class="btn-download" id="btn-download-img">📥 点击下载涂色线稿</button>
             </div>
         </section>
 
-        <footer class="fade-in-up" style="text-align:center; padding:30px; color:#b08890;">
+        <footer class="text-center" style="padding:30px; color:#b08890;">
             <p>💗 谢谢你，让我的世界变成粉红色</p>
             <p style="margin-top:4px;">— 爱你的 [你的名字] —</p>
         </footer>
@@ -337,16 +418,29 @@
             const mainContent = document.getElementById('main-content');
             const heartEmojis = ['❤️','💕','💖','💗','💝','💘','🩷','🌸','💐','🧸','💌','🍓','🫧','💙','🩵'];
 
-            // 封面点击展开
+            const sections = {
+                envelope: document.getElementById('step-envelope'),
+                photos: document.getElementById('step-photos'),
+                todo: document.getElementById('step-todo'),
+                scratch: document.getElementById('step-scratch')
+            };
+
+            function showSection(sectionId) {
+                Object.values(sections).forEach(sec => sec.classList.remove('active'));
+                if (sections[sectionId]) {
+                    sections[sectionId].classList.add('active');
+                }
+            }
+
             cover.addEventListener('click', () => {
                 if(cover.classList.contains('hidden')) return;
                 cover.classList.add('hidden');
                 mainContent.classList.add('visible');
+                showSection('envelope');
                 burstHearts(window.innerWidth/2, window.innerHeight/2, 25);
                 showToast('🍓 生日快乐！慢慢看哦～');
             });
 
-            // 爱心从上往下飘落
             function createHeart(x, y) {
                 const heart = document.createElement('span');
                 heart.className = 'floating-heart';
@@ -374,7 +468,6 @@
                 loop();
             }
             startRain();
-            // 点击爱心爆发
             heartsContainer.addEventListener('click', (e) => {
                 if(e.target.classList.contains('floating-heart')){
                     const r = e.target.getBoundingClientRect();
@@ -383,7 +476,7 @@
                 }
             });
 
-            // 信封打开 → 显示信纸
+            // 信封
             const envelope = document.getElementById('envelope');
             const letterPaper = document.getElementById('letterPaper');
             envelope.addEventListener('click', () => {
@@ -391,18 +484,16 @@
                 letterPaper.classList.add('open');
                 burstHearts(window.innerWidth/2, 300, 10);
             });
-
-            // 信纸上的按钮：滚动到照片区
             document.getElementById('goToPhotosBtn').addEventListener('click', () => {
-                document.getElementById('photo-section').scrollIntoView({ behavior: 'smooth' });
-                burstHearts(window.innerWidth/2, window.innerHeight/2, 8);
+                showSection('photos');
+                burstHearts(window.innerWidth/2, 200, 8);
             });
 
-            // 照片点赞与猜心游戏
+            // 照片点赞（8张）
             const photoCards = document.querySelectorAll('.photo-card');
             const totalPhotos = photoCards.length;
             const likedPhotos = new Set();
-            let gameCompleted = false;
+            let photoGameCompleted = false;
 
             photoCards.forEach(card => {
                 const btn = card.querySelector('.like-btn');
@@ -418,20 +509,21 @@
                     const id = card.dataset.id;
                     if(!likedPhotos.has(id)){
                         likedPhotos.add(id);
-                        if(likedPhotos.size < totalPhotos){
+                        if(likedPhotos.size === totalPhotos && !photoGameCompleted){
+                            photoGameCompleted = true;
+                            setTimeout(() => {
+                                showPopup('其实每一张我都超级喜欢！💗 和你在一起的每一刻都是我的最爱。', () => {
+                                    showSection('todo');
+                                });
+                            }, 600);
+                        } else if(likedPhotos.size < totalPhotos) {
                             showToast('我也喜欢这张！但还有别的回忆哦～');
                         }
-                    }
-                    if(likedPhotos.size === totalPhotos && !gameCompleted){
-                        gameCompleted = true;
-                        setTimeout(() => {
-                            showPopup('其实每一张我都超级喜欢！💗 和你在一起的每一刻都是我的最爱。');
-                        }, 600);
                     }
                 });
             });
 
-            // 待办清单全部完成彩蛋
+            // 待办
             const todoItems = document.querySelectorAll('.todo-item');
             const completedSpan = document.getElementById('completed-count');
             document.getElementById('total-count').textContent = todoItems.length;
@@ -442,7 +534,9 @@
                 if(done === todoItems.length && !todoCompleted){
                     todoCompleted = true;
                     setTimeout(() => {
-                        showPopup('还有好多好多好多事情想和你一起去做 💗');
+                        showPopup('还有好多好多好多事情想和你一起去做 💗', () => {
+                            showSection('scratch');
+                        });
                     }, 400);
                 }
             }
@@ -458,11 +552,11 @@
             });
             updateTodoCount();
 
-            // --- 刮刮乐逻辑（灰色涂层，支持触摸和鼠标）---
+            // 刮刮乐
             const scratchContainer = document.getElementById('scratch-container');
             const canvas = document.getElementById('scratch-canvas');
             const hint = document.getElementById('scratch-hint');
-            const revealText = document.getElementById('scratch-reveal-text');
+            const revealDiv = document.getElementById('scratch-reveal');
             const ctx = canvas.getContext('2d');
             let isScratching = false;
             let revealTriggered = false;
@@ -471,7 +565,6 @@
                 const rect = scratchContainer.getBoundingClientRect();
                 canvas.width = rect.width;
                 canvas.height = rect.height;
-                // 灰色涂层
                 ctx.fillStyle = '#cccccc';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = '#666666';
@@ -502,9 +595,9 @@
                 if(!revealTriggered && getScratchPercent() > 0.5){
                     revealTriggered = true;
                     hint.style.display = 'none';
-                    revealText.style.display = 'block';
+                    revealDiv.style.display = 'block';
                     burstHearts(window.innerWidth/2, window.innerHeight/2, 15);
-                    showToast('🍓 这是我为你画的画，长按保存吧！');
+                    showToast('🍓 这是我为你画的画，点击下载保存吧！');
                 }
             }
 
@@ -512,10 +605,7 @@
                 const rect = canvas.getBoundingClientRect();
                 const clientX = e.touches ? e.touches[0].clientX : e.clientX;
                 const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-                return {
-                    x: clientX - rect.left,
-                    y: clientY - rect.top
-                };
+                return { x: clientX - rect.left, y: clientY - rect.top };
             }
 
             function handleStart(e) {
@@ -530,49 +620,65 @@
                 const coords = getCanvasCoords(e);
                 scratch(coords.x, coords.y);
             }
-            function handleEnd() {
-                isScratching = false;
-            }
+            function handleEnd() { isScratching = false; }
 
-            // 触摸事件
             canvas.addEventListener('touchstart', handleStart, {passive: false});
             canvas.addEventListener('touchmove', handleMove, {passive: false});
             canvas.addEventListener('touchend', handleEnd);
             canvas.addEventListener('touchcancel', handleEnd);
-
-            // 鼠标事件
             canvas.addEventListener('mousedown', handleStart);
             window.addEventListener('mousemove', function(e) {
                 if (!isScratching) return;
-                if (e.buttons !== 1) {
-                    isScratching = false;
-                    return;
-                }
+                if (e.buttons !== 1) { isScratching = false; return; }
                 const rect = canvas.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                scratch(x, y);
+                scratch(e.clientX - rect.left, e.clientY - rect.top);
             });
             window.addEventListener('mouseup', handleEnd);
+
+            document.getElementById('btn-download-img').addEventListener('click', function() {
+                const img = document.getElementById('scratch-bg-img');
+                const canvas = document.createElement('canvas');
+                canvas.width = img.naturalWidth || 400;
+                canvas.height = img.naturalHeight || 500;
+                const ctx2 = canvas.getContext('2d');
+                ctx2.drawImage(img, 0, 0);
+                canvas.toBlob(function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = '生日涂色线稿.png';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    showToast('✅ 下载成功，开始涂色吧！');
+                }, 'image/png');
+            });
 
             // 弹窗
             const popupBg = document.getElementById('popup-bg');
             const popup = document.getElementById('popup');
             const popupText = document.getElementById('popup-text');
             const popupClose = document.getElementById('popup-close');
-            function showPopup(msg){
+            let popupCallback = null;
+
+            function showPopup(msg, callback) {
                 popupText.textContent = msg;
                 popupBg.classList.add('show');
                 popup.classList.add('show');
+                popupCallback = callback || null;
             }
             function hidePopup(){
                 popupBg.classList.remove('show');
                 popup.classList.remove('show');
+                if (popupCallback) {
+                    popupCallback();
+                    popupCallback = null;
+                }
             }
             popupClose.addEventListener('click', hidePopup);
             popupBg.addEventListener('click', hidePopup);
 
-            // Toast
             const toastEl = document.getElementById('toast');
             let toastTimer;
             function showToast(msg){
@@ -581,16 +687,6 @@
                 toastEl.classList.add('show');
                 toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2000);
             }
-
-            // 滚动渐入动画
-            const faders = document.querySelectorAll('.fade-in-up');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); } });
-            }, { threshold: 0.2 });
-            faders.forEach(el => observer.observe(el));
-            setTimeout(() => {
-                faders.forEach(el => { const r = el.getBoundingClientRect(); if(r.top < window.innerHeight) { el.classList.add('visible'); observer.unobserve(el); } });
-            }, 500);
         })();
     </script>
 </body>
