@@ -170,7 +170,6 @@
             flex-shrink:0; width:220px; scroll-snap-align:center; border-radius:16px; overflow:hidden;
             background:#fff; box-shadow:0 4px 16px rgba(0,0,0,0.06); position:relative;
         }
-        /* 关键：图片容器高度固定，图片使用 cover 适应横竖屏 */
         .photo-card .img-container {
             width: 100%;
             height: 240px;
@@ -283,7 +282,6 @@
             </div>
             <div class="letter-paper" id="letterPaper">
                 <div class="letter-content">
-                    <!-- 🔧 替换：修改信中的祝福语 -->
                     <p>我的宝贝老婆：</p>
                     <p>生日快乐！🎂</p>
                     <p>感谢你出现在我的生命里，让每一天都变成了甜甜的草莓味。</p>
@@ -300,70 +298,45 @@
             <div class="section-divider"></div>
             <p class="text-center" style="font-size:0.8rem; color:#b08890; margin-bottom:8px;">← 左右滑动，点一下小心心告诉我你的喜欢 💗</p>
             <div class="photo-scroll-wrapper" id="photo-scroll">
-                <!-- 🔧 替换照片：修改每个 img 的 src 为你的照片路径，修改 photo-label 文字 -->
                 <div class="photo-card" data-id="0">
-                    <div class="img-container">
-                        <img src="1.jpg" alt="照片1">
-                    </div>
+                    <div class="img-container"><img src="1.jpg" alt="照片1"></div>
                     <div class="photo-label">交流会~ ☀️</div>
-                    <button class="like-btn">🤍</button>
-                    <span class="like-count">0</span>
+                    <button class="like-btn">🤍</button><span class="like-count">0</span>
                 </div>
                 <div class="photo-card" data-id="1">
-                    <div class="img-container">
-                        <img src="2.jpg" alt="照片2">
-                    </div>
+                    <div class="img-container"><img src="2.jpg" alt="照片2"></div>
                     <div class="photo-label">环球影城 🌊</div>
-                    <button class="like-btn">🤍</button>
-                    <span class="like-count">0</span>
+                    <button class="like-btn">🤍</button><span class="like-count">0</span>
                 </div>
                 <div class="photo-card" data-id="2">
-                    <div class="img-container">
-                        <img src="3.jpg" alt="照片3">
-                    </div>
+                    <div class="img-container"><img src="3.jpg" alt="照片3"></div>
                     <div class="photo-label">西餐馆 🍳</div>
-                    <button class="like-btn">🤍</button>
-                    <span class="like-count">0</span>
+                    <button class="like-btn">🤍</button><span class="like-count">0</span>
                 </div>
                 <div class="photo-card" data-id="3">
-                    <div class="img-container">
-                        <img src="4.jpg" alt="照片4">
-                    </div>
+                    <div class="img-container"><img src="4.jpg" alt="照片4"></div>
                     <div class="photo-label">手机壳壳 🎉</div>
-                    <button class="like-btn">🤍</button>
-                    <span class="like-count">0</span>
+                    <button class="like-btn">🤍</button><span class="like-count">0</span>
                 </div>
                 <div class="photo-card" data-id="4">
-                    <div class="img-container">
-                        <img src="5.jpg" alt="照片5">
-                    </div>
+                    <div class="img-container"><img src="5.jpg" alt="照片5"></div>
                     <div class="photo-label">春日花花 🌸</div>
-                    <button class="like-btn">🤍</button>
-                    <span class="like-count">0</span>
+                    <button class="like-btn">🤍</button><span class="like-count">0</span>
                 </div>
                 <div class="photo-card" data-id="5">
-                    <div class="img-container">
-                        <img src="6.jpg" alt="照片6">
-                    </div>
+                    <div class="img-container"><img src="6.jpg" alt="照片6"></div>
                     <div class="photo-label">由布院！🎄</div>
-                    <button class="like-btn">🤍</button>
-                    <span class="like-count">0</span>
+                    <button class="like-btn">🤍</button><span class="like-count">0</span>
                 </div>
                 <div class="photo-card" data-id="6">
-                    <div class="img-container">
-                        <img src="7.jpg" alt="照片7">
-                    </div>
+                    <div class="img-container"><img src="7.jpg" alt="照片7"></div>
                     <div class="photo-label">凹面镜 🎵</div>
-                    <button class="like-btn">🤍</button>
-                    <span class="like-count">0</span>
+                    <button class="like-btn">🤍</button><span class="like-count">0</span>
                 </div>
                 <div class="photo-card" data-id="7">
-                    <div class="img-container">
-                        <img src="8.jpg" alt="照片8">
-                    </div>
+                    <div class="img-container"><img src="8.jpg" alt="照片8"></div>
                     <div class="photo-label">永远在一起 💕</div>
-                    <button class="like-btn">🤍</button>
-                    <span class="like-count">0</span>
+                    <button class="like-btn">🤍</button><span class="like-count">0</span>
                 </div>
             </div>
             <p class="text-center" style="font-size:0.7rem; color:#c0a0a8; margin-top:6px;">猜猜这些照片里我最喜欢哪张？❤️</p>
@@ -374,7 +347,6 @@
             <div class="section-header"><span class="section-icon">📝</span><h2 class="section-title">想一起做的事</h2></div>
             <div class="section-divider"></div>
             <ul class="todo-list" id="todo-list">
-                <!-- 🔧 替换待办事项文字 -->
                 <li class="todo-item"><span class="todo-check">✓</span><span class="todo-text">一起看一场日出 🌅</span></li>
                 <li class="todo-item"><span class="todo-check">✓</span><span class="todo-text">一起喂一次小猫 🐱</span></li>
                 <li class="todo-item"><span class="todo-check">✓</span><span class="todo-text">一起逛遍所有可爱小店 🧸</span></li>
@@ -393,9 +365,7 @@
             <div class="section-divider"></div>
             <p class="text-center" style="font-size:0.9rem; color:#5a3e4b;">用手指轻轻刮开下方涂层 ✨</p>
             <div class="scratch-container" id="scratch-container">
-                <img id="scratch-bg-img" class="scratch-bg-img"
-                     src="drawing.png"
-                     alt="涂色线稿">
+                <img id="scratch-bg-img" class="scratch-bg-img" src="drawing.png" alt="涂色线稿">
                 <canvas id="scratch-canvas" class="scratch-canvas"></canvas>
             </div>
             <p class="scratch-hint" id="scratch-hint">💗 刮开涂层，有我想对你说的话</p>
@@ -425,10 +395,35 @@
                 scratch: document.getElementById('step-scratch')
             };
 
+            // 刮刮乐相关变量
+            const scratchContainer = document.getElementById('scratch-container');
+            const canvas = document.getElementById('scratch-canvas');
+            const hint = document.getElementById('scratch-hint');
+            const revealDiv = document.getElementById('scratch-reveal');
+            const ctx = canvas.getContext('2d');
+            let isScratching = false;
+            let revealTriggered = false;
+
+            // 弹窗相关
+            const popupBg = document.getElementById('popup-bg');
+            const popup = document.getElementById('popup');
+            const popupText = document.getElementById('popup-text');
+            const popupClose = document.getElementById('popup-close');
+            let popupCallback = null;
+
+            // 显示指定步骤，并对刮刮乐做特殊处理
             function showSection(sectionId) {
                 Object.values(sections).forEach(sec => sec.classList.remove('active'));
                 if (sections[sectionId]) {
                     sections[sectionId].classList.add('active');
+                    if (sectionId === 'scratch') {
+                        setTimeout(() => {
+                            resizeCanvas();
+                            revealTriggered = false;
+                            hint.style.display = 'block';
+                            revealDiv.style.display = 'none';
+                        }, 80);
+                    }
                 }
             }
 
@@ -468,11 +463,26 @@
                 loop();
             }
             startRain();
+
+            // 爱心点击事件：区分淡蓝色惊喜爱心
             heartsContainer.addEventListener('click', (e) => {
                 if(e.target.classList.contains('floating-heart')){
-                    const r = e.target.getBoundingClientRect();
-                    burstHearts(r.left+r.width/2, r.top+r.height/2, 12);
-                    e.target.remove();
+                    const heartEl = e.target;
+                    const heartContent = heartEl.textContent;
+                    // 检查是否是淡蓝色爱心
+                    if (heartContent === '💙' || heartContent === '🩵') {
+                        // 弹出惊喜弹窗
+                        showPopup('好棒棒！你找到我啦！！！ 💙', null);
+                        // 同时在该位置爆发爱心
+                        const r = heartEl.getBoundingClientRect();
+                        burstHearts(r.left + r.width/2, r.top + r.height/2, 18);
+                        heartEl.remove();
+                    } else {
+                        // 普通爱心：爆发并移除
+                        const r = heartEl.getBoundingClientRect();
+                        burstHearts(r.left + r.width/2, r.top + r.height/2, 12);
+                        heartEl.remove();
+                    }
                 }
             });
 
@@ -494,7 +504,6 @@
             const totalPhotos = photoCards.length;
             const likedPhotos = new Set();
             let photoGameCompleted = false;
-
             photoCards.forEach(card => {
                 const btn = card.querySelector('.like-btn');
                 const countSpan = card.querySelector('.like-count');
@@ -552,19 +561,12 @@
             });
             updateTodoCount();
 
-            // 刮刮乐
-            const scratchContainer = document.getElementById('scratch-container');
-            const canvas = document.getElementById('scratch-canvas');
-            const hint = document.getElementById('scratch-hint');
-            const revealDiv = document.getElementById('scratch-reveal');
-            const ctx = canvas.getContext('2d');
-            let isScratching = false;
-            let revealTriggered = false;
-
+            // ---- 刮刮乐功能 ----
             function resizeCanvas(){
                 const rect = scratchContainer.getBoundingClientRect();
                 canvas.width = rect.width;
                 canvas.height = rect.height;
+                ctx.globalCompositeOperation = 'source-over';
                 ctx.fillStyle = '#cccccc';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = '#666666';
@@ -574,8 +576,12 @@
                 ctx.font = '14px sans-serif';
                 ctx.fillText('用手指轻轻滑动', canvas.width/2, canvas.height/2+30);
             }
-            window.addEventListener('resize', resizeCanvas);
-            resizeCanvas();
+
+            window.addEventListener('resize', () => {
+                if (sections.scratch.classList.contains('active')) {
+                    resizeCanvas();
+                }
+            });
 
             function getScratchPercent(){
                 const imageData = ctx.getImageData(0,0,canvas.width,canvas.height).data;
@@ -637,12 +643,12 @@
 
             document.getElementById('btn-download-img').addEventListener('click', function() {
                 const img = document.getElementById('scratch-bg-img');
-                const canvas = document.createElement('canvas');
-                canvas.width = img.naturalWidth || 400;
-                canvas.height = img.naturalHeight || 500;
-                const ctx2 = canvas.getContext('2d');
-                ctx2.drawImage(img, 0, 0);
-                canvas.toBlob(function(blob) {
+                const tmpCanvas = document.createElement('canvas');
+                tmpCanvas.width = img.naturalWidth || 400;
+                tmpCanvas.height = img.naturalHeight || 500;
+                const tmpCtx = tmpCanvas.getContext('2d');
+                tmpCtx.drawImage(img, 0, 0);
+                tmpCanvas.toBlob(function(blob) {
                     const url = URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
@@ -655,13 +661,7 @@
                 }, 'image/png');
             });
 
-            // 弹窗
-            const popupBg = document.getElementById('popup-bg');
-            const popup = document.getElementById('popup');
-            const popupText = document.getElementById('popup-text');
-            const popupClose = document.getElementById('popup-close');
-            let popupCallback = null;
-
+            // 弹窗函数
             function showPopup(msg, callback) {
                 popupText.textContent = msg;
                 popupBg.classList.add('show');
